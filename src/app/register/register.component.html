@@ -1,0 +1,41 @@
+<div class="register-container">
+    <p>Register</p>
+    
+    <form [formGroup]="registerGroup">
+        <div class="form-group">
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" class="form-control" formControlName="fullName" placeholder="Full Name"/>
+            <span *ngIf="registerGroup.get('fullName')?.hasError('required') && isSubmitClicked">Full Name is required</span>
+        </div>
+
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" id="email" class="form-control" formControlName="email" placeholder="Email"/>
+            <span *ngIf="registerGroup.get('email')?.hasError('required') && isSubmitClicked" >Email is required</span>
+        </div>
+
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" id="password" class="form-control" formControlName="password" placeholder="Password"/>
+            <span *ngIf="registerGroup.get('password')?.hasError('required') && isSubmitClicked">Password is required</span>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number:</label>
+            <input type="tel" id="phNo" class="form-control" formControlName="phoneNumber" placeholder="Phone Number"/>
+            <span *ngIf="registerGroup.get('phoneNumber')?.hasError('required') && isSubmitClicked">Phone Number is required</span>
+        </div>
+
+        <div class="form-group">
+            <label>User Type:</label>
+            <select id="userType" class="form-control" formControlName="userType">
+                <option value="" disabled selected>Select User Type</option>
+                <option value="BANKER">Banker</option>
+                <option value="CUSTOMER">Customer</option>
+            </select>
+            <span *ngIf="registerGroup.get('userType')?.hasError('required') && isSubmitClicked">User Type is required</span>
+        </div>
+
+        <button type="button" id="btnsignup" (click)="registerUser()">Signup</button>
+    </form>
+</div>

@@ -1,0 +1,20 @@
+<div class="login-container">
+    <p>Login</p>
+    <form [formGroup]="loginGroup">
+      <label>  User Name:
+        <input type="text" name="UserName"  placeholder="UserName"  id="UserName" formControlName="userName" class="form-control" />
+        <span *ngIf="loginGroup.get('userName')?.hasError('required') && isLoginClicked">
+          Username is required
+        </span>
+      </label>
+      <label>Password:
+        <input   type="password"  name="Password"  placeholder="Password"  id="Password"    formControlName="password"    class="form-control" />
+        <span *ngIf="loginGroup.get('password')?.hasError('required') && isLoginClicked">
+          Password is required
+        </span>
+      </label>
+      <a href="/register">Register</a> 
+      <button type="button" id="btnlogin" (click)="loginUser()">Login</button>
+    </form>
+  </div>
+  

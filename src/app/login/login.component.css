@@ -1,0 +1,98 @@
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 25%;
+  margin: 2rem auto;
+  background-color: #ffffff; /* Fallback color */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url('/src/assets/images/login.jpg');
+ 
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+  
+  @media (max-width: 768px) {
+    .login-container {
+      width: 90%;
+    }
+  }
+
+  p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  form {
+    align-self: center;
+    width: 100%;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 1rem;
+    color: #555;
+    font-weight: 500;
+  }
+  
+  .form-control {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 0.5rem;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+  }
+  
+  span {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 0.25rem;
+    display: block;
+  }
+  
+  a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-size: 15px;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  button:hover {
+    background-color: #357abd;
+  }
+  
+  button:active {
+    transform: translateY(1px);
+  }
+  
