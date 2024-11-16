@@ -1,29 +1,52 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,FormsModule,ReactiveFormsModule],
+  imports: [CommonModule,HttpClientModule,ReactiveFormsModule,RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  loginForm: FormGroup;
+  loading = false;
+  error = '';
 
-isLoginClicked:boolean=false;
+  constructor(private formBuilder: FormBuilder,private authService: AuthService,private router: Router)
+  {
+    this.loginForm = this.formBuilder.group({
+      
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
+  onSubmit(): void {
+    if (this.loginForm.invalid) {
+      return;
+    }
 
-  loginGroup = new FormGroup(
-    {
-      userName:new FormControl('',[Validators.required]),
-      password:new FormControl('',[Validators.required])
-    }
-  )
-  loginUser() {
-    this.isLoginClicked=true;
-    if(!this.loginGroup.dirty)
-    {
-   
-    }
- }
+    this.loading = true;
+    this.authService.login(
+      this.loginForm.get('username')?.value,
+      this.loginForm.get('password')?.value
+    ).subscribe({
+      next: () => {
+        this.router.navigate(['/dashboard']);
+      },
+      error: error => {
+        if (error.status === 403) {
+          this.error = 'Invalid username or password';
+        } else {
+          this.error = 'Unable to connect to the server';
+        }
+        this.loading = false;
+      }
+    });
+    
+  }
 }

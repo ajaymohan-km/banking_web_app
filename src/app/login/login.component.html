@@ -1,20 +1,33 @@
 <div class="login-container">
-    <p>Login</p>
-    <form [formGroup]="loginGroup">
-      <label>  User Name:
-        <input type="text" name="UserName"  placeholder="UserName"  id="UserName" formControlName="userName" class="form-control" />
-        <span *ngIf="loginGroup.get('userName')?.hasError('required') && isLoginClicked">
-          Username is required
-        </span>
-      </label>
-      <label>Password:
-        <input   type="password"  name="Password"  placeholder="Password"  id="Password"    formControlName="password"    class="form-control" />
-        <span *ngIf="loginGroup.get('password')?.hasError('required') && isLoginClicked">
-          Password is required
-        </span>
-      </label>
-      <a href="/register">Register</a> 
-      <button type="button" id="btnlogin" (click)="loginUser()">Login</button>
+  <div class="login-card">
+    <h2>Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" formControlName="username" class="form-control"
+         [ngClass]="{ 'is-invalid': loginForm.get('username')?.touched && loginForm.get('username')?.invalid }"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" formControlName="password" class="form-control"
+          [ngClass]="{ 'is-invalid': loginForm.get('password')?.touched && loginForm.get('password')?.invalid }"
+        />
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+      </div>
+
+      <button type="submit" [disabled]="loading || loginForm.invalid" class="btn btn-primary">
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+
+      <div class="register-link">
+        Don't have an account? <a routerLink="/register">Register here</a>
+      </div>
     </form>
   </div>
-  
+</div>

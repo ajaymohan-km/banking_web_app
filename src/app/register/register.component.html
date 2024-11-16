@@ -1,41 +1,52 @@
 <div class="register-container">
-    <p>Register</p>
-    
-    <form [formGroup]="registerGroup">
+    <div class="register-card">
+      <h2>Register</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <label for="fullName">Full Name:</label>
-            <input type="text" id="fullName" class="form-control" formControlName="fullName" placeholder="Full Name"/>
-            <span *ngIf="registerGroup.get('fullName')?.hasError('required') && isSubmitClicked">Full Name is required</span>
+          <label for="username">Username</label>
+          <input type="text" id="username" formControlName="username" class="form-control"
+            [ngClass]="{ 'is-invalid': registerForm.get('username')?.touched && registerForm.get('username')?.invalid }"
+          />
         </div>
-
+  
         <div class="form-group">
-            <label>Email:</label>
-            <input type="email" id="email" class="form-control" formControlName="email" placeholder="Email"/>
-            <span *ngIf="registerGroup.get('email')?.hasError('required') && isSubmitClicked" >Email is required</span>
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" class="form-control"
+            [ngClass]="{ 'is-invalid': registerForm.get('email')?.touched && registerForm.get('email')?.invalid }"
+          />
         </div>
-
+  
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" formControlName="fullName" class="form-control" />
+          </div>
+        </div>
+  
         <div class="form-group">
-            <label>Password:</label>
-            <input type="password" id="password" class="form-control" formControlName="password" placeholder="Password"/>
-            <span *ngIf="registerGroup.get('password')?.hasError('required') && isSubmitClicked">Password is required</span>
+          <label for="password">Password</label>
+          <input type="password" id="password" formControlName="password" class="form-control"
+            [ngClass]="{ 'is-invalid': registerForm.get('password')?.touched && registerForm.get('password')?.invalid }"
+          />
         </div>
-
+  
         <div class="form-group">
-            <label>Phone Number:</label>
-            <input type="tel" id="phNo" class="form-control" formControlName="phoneNumber" placeholder="Phone Number"/>
-            <span *ngIf="registerGroup.get('phoneNumber')?.hasError('required') && isSubmitClicked">Phone Number is required</span>
+          <label for="phoneNumber">Phone Number</label>
+          <input type="tel" id="phoneNumber" formControlName="phoneNumber" class="form-control" />
         </div>
-
-        <div class="form-group">
-            <label>User Type:</label>
-            <select id="userType" class="form-control" formControlName="userType">
-                <option value="" disabled selected>Select User Type</option>
-                <option value="BANKER">Banker</option>
-                <option value="CUSTOMER">Customer</option>
-            </select>
-            <span *ngIf="registerGroup.get('userType')?.hasError('required') && isSubmitClicked">User Type is required</span>
+  
+        <div *ngIf="error" class="alert alert-danger">
+          {{ error }}
         </div>
-
-        <button type="button" id="btnsignup" (click)="registerUser()">Signup</button>
-    </form>
-</div>
+  
+        <button type="submit" [disabled]="loading || registerForm.invalid" class="btn btn-primary">
+          {{ loading ? 'Registering...' : 'Register' }}
+        </button>
+  
+        <div class="login-link">
+          Already have an account? <a routerLink="/login">Login here</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  
