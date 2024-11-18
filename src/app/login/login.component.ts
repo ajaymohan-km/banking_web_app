@@ -36,7 +36,7 @@ export class LoginComponent {
       this.loginForm.get('password')?.value
     ).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/customer_dashboard']);
       },
       error: error => {
         if (error.status === 403) {
