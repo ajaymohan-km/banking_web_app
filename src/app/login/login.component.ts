@@ -29,14 +29,20 @@ export class LoginComponent {
     if (this.loginForm.invalid) {
       return;
     }
-
+  
     this.loading = true;
     this.authService.login(
       this.loginForm.get('username')?.value,
       this.loginForm.get('password')?.value
     ).subscribe({
-      next: () => {
-        this.router.navigate(['/customer_dashboard']);
+      next: (response) => {
+        if (response.role === 'ADMIN') {
+          this.router.navigate(['/admin-dashboard']);
+        } else if (response.role === 'BANKER') {
+          this.router.navigate(['/banker-dashboard']);
+        } else {
+          this.router.navigate(['/customer_dashboard']);
+        }
       },
       error: error => {
         if (error.status === 403) {
@@ -47,6 +53,7 @@ export class LoginComponent {
         this.loading = false;
       }
     });
-    
   }
+  
+  
 }

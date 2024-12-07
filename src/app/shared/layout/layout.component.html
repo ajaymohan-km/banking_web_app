@@ -1,0 +1,58 @@
+<div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.png" alt="Bank Logo" class="logo">
+        <h1>MyBank</h1>
+      </div>
+  
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a [routerLink]="['/customer_dashboard']" routerLinkActive="active">
+              <i class="fas fa-home"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/accounts']" routerLinkActive="active">
+              <i class="fas fa-wallet"></i>
+              <span>Accounts</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/payments']" routerLinkActive="active">
+              <i class="fas fa-money-bill"></i>
+              <span>Payments</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/loans']" routerLinkActive="active">
+              <i class="fas fa-hand-holding-usd"></i>
+              <span>Loans</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+  
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <img src="assets/avatar.png" alt="User Avatar" class="avatar">
+          <div class="user-details">
+            <span class="user-name">{{username}}</span>
+            <span class="user-role">Premium Member</span>
+          </div>
+        </div>
+        <button class="logout-btn" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </button>
+      </div>
+    </aside>
+  
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  

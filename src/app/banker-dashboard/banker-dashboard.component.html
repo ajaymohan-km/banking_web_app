@@ -1,0 +1,80 @@
+<div class="banker-container">
+    <header class="banker-header">
+      <div class="welcome-section">
+        <h1>Welcome, Banker</h1>
+        <p>Manage loan applications and customer accounts</p>
+      </div>
+      <div class="header-actions">
+        <span class="current-time">{{currentDate | date:'medium'}}</span>
+        <button class="logout-btn" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </button>
+      </div>
+    </header>
+  
+    <!-- Dashboard Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Overview</h3>
+        <div class="stat-content">
+          <div class="stat-item">
+            <span>Pending Applications</span>
+            <span class="stat-value">{{dashboardStats.pendingLoanApplications}}</span>
+          </div>
+          <div class="stat-item">
+            <span>Total Customers</span>
+            <span class="stat-value">{{dashboardStats.totalCustomers}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Recent Applications -->
+    <div class="applications-section">
+      <h2>Recent Loan Applications</h2>
+      <div class="applications-grid">
+        <div *ngFor="let app of dashboardStats.recentLoanApplications" class="application-card">
+          <div class="application-header">
+            <h3>{{app.loanType | titlecase}} Loan</h3>
+            <span class="status-badge" [ngClass]="app.status.toLowerCase()">
+              {{app.status}}
+            </span>
+          </div>
+          <div class="application-details">
+            <p>Amount: {{app.requestedAmount | currency}}</p>
+            <p>Application Date: {{app.applicationDate | date:'medium'}}</p>
+            <p>Customer ID: {{app.customerId}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Pending Applications -->
+    <div class="pending-section">
+      <h2>Pending Applications</h2>
+      <div class="pending-grid">
+        <div *ngFor="let loan of pendingLoans" class="loan-card">
+          <div class="loan-header">
+            <h3>{{loan.purpose | titlecase}} Loan</h3>
+            <span class="amount">{{loan.amount | currency}}</span>
+          </div>
+          <div class="loan-details">
+            <p>Term: {{loan.termInMonths}} months</p>
+            <p>Employment: {{loan.employmentStatus}}</p>
+            <p>Monthly Income: {{loan.monthlyIncome | currency}}</p>
+            <p>Applied: {{loan.applicationDate | date:'medium'}}</p>
+          </div>
+          <div class="loan-actions">
+            <button class="approve-btn" (click)="approveLoan(loan.id)">
+              <i class="fas fa-check"></i> Approve
+            </button>
+            <button class="reject-btn" (click)="rejectLoan(loan.id)">
+              <i class="fas fa-times"></i> Reject
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

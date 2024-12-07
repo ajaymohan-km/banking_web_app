@@ -12,10 +12,12 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./customer-dashboard.component.css']
 })
 export class CustomerDashboardComponent implements OnInit {
+  dashboardData: DashboardData | null = null;
+  accounts: Account[] = [];
   accountBalance = 0;
-  recentTransactions: any[] = [];
-  activeLoans: any[] = [];
-  notifications: any[] = [];
+  recentTransactions: Transaction[] = [];
+  activeLoans: Loan[] = [];
+  username: string | null = null;
 
   constructor(
     private dashboardService: DashboardService,
@@ -24,21 +26,53 @@ export class CustomerDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadDashboardData();
+    this.username = localStorage.getItem('username') || '';
   }
 
   private loadDashboardData() {
     this.dashboardService.getCustomerDashboard().subscribe(data => {
+      this.dashboardData = data;
       this.accountBalance = data.totalBalance;
+      this.accounts = data.accounts;
       this.recentTransactions = data.recentTransactions;
       this.activeLoans = data.activeLoans;
-      this.notifications = data.notifications;
     });
   }
 
-  getTransactionIcon(type: string): string {
-    const icons = {
-      'default': 'fas fa-circle text-secondary'
-    };
-    return  icons.default;
+  getTransactionIcon(amount: number): string {
+    return amount > 0 ? 'fas fa-arrow-up text-success' : 'fas fa-arrow-down text-danger';
   }
+}
+
+
+interface Account {
+  accountId: string;
+  accountNumber: string;
+  accountType: string;
+  currentBalance: number;
+  active: boolean;
+}
+
+interface Transaction {
+  transactionId: string;
+  amount: number;
+  timestamp: string;
+}
+
+interface Loan {
+  loanId: string;
+  loanType: string | null;
+  principalAmount: number;
+  remainingAmount: number;
+  interestRate: number;
+  status: string;
+  startDate: string;
+}
+
+interface DashboardData {
+  totalBalance: number;
+  accounts: Account[];
+  recentTransactions: Transaction[];
+  activeLoans: Loan[];
+  notifications: any[];
 }

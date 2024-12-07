@@ -1,0 +1,76 @@
+<div class="app-container">
+    <main class="main-content">
+      <header class="content-header">
+        <div class="header-title">
+          <h2>My Accounts</h2>
+        </div>
+        <div class="header-actions">
+          <div class="user-profile">
+            <span class="username">{{username}}</span>
+            <i class="fas fa-user-circle"></i>
+          </div>
+        </div>
+      </header>
+  
+      <div class="content-body">
+        <div class="accounts-container">
+          <div class="accounts-grid">
+            <div *ngFor="let account of accounts" class="account-card">
+              <div class="account-header">
+                <h3>{{account.accountType}}</h3>
+                <span [class.active]="account.active" class="status-badge">
+                  {{account.active ? 'Active' : 'Inactive'}}
+                </span>
+              </div>
+              <div class="account-details">
+                <p class="account-number">Account Number: {{account.accountNumber}}</p>
+                <h4 class="balance">Balance: {{account.balance | currency}}</h4>
+              </div>
+              <div class="account-actions">
+                <button class="action-btn" (click)="openTransferModal(account)">Transfer</button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Add this at the bottom of your existing HTML -->
+  <div class="modal" *ngIf="showTransferModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Transfer Money</h2>
+        <button class="close-btn" (click)="closeTransferModal()">×</button>
+      </div>
+      <form [formGroup]="transferForm" (ngSubmit)="submitTransfer()">
+        <div class="form-group">
+          <label>From Account</label>
+          <input type="text" [value]="selectedAccount?.accountNumber" readonly>
+        </div>
+        <div class="form-group">
+          <label>To Account</label>
+          <select formControlName="toAccountId">
+            <option value="">Select Account</option>
+            <option *ngFor="let account of accounts" 
+                    [value]="account.id"
+                    [disabled]="account.id === selectedAccount?.id">
+              {{account.accountNumber}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Amount</label>
+          <input type="number" formControlName="amount">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn" (click)="closeTransferModal()">Cancel</button>
+          <button type="submit" class="submit-btn" [disabled]="transferForm.invalid || loading">
+            {{loading ? 'Processing...' : 'Transfer'}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
