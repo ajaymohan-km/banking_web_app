@@ -1,88 +1,30 @@
 <div class="app-container">
-  <!-- Sidebar Navigation -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <img src="assets/logo.png" alt="Bank Logo" class="logo">
-      <h1>MyBank</h1>
-    </div>
-
-    <nav class="sidebar-nav">
-      <ul class="nav-list">
-        <li class="nav-item active">
-          <a href="#dashboard">
-            <i class="fas fa-home"></i>
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#accounts">
-            <i class="fas fa-wallet"></i>
-            <span>Accounts</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#payments">
-            <i class="fas fa-money-bill"></i>
-            <span>Payments</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#transfers">
-            <i class="fas fa-exchange-alt"></i>
-            <span>Transfers</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#investments">
-            <i class="fas fa-chart-line"></i>
-            <span>Investments</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#cards">
-            <i class="fas fa-credit-card"></i>
-            <span>Cards</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#loans">
-            <i class="fas fa-hand-holding-usd"></i>
-            <span>Loans</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="user-info">
-        <img src="assets/avatar.png" alt="User Avatar" class="avatar">
-        <div class="user-details">
-          <span class="user-name">John Doe</span>
-          <span class="user-role">Premium Member</span>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Main Content Area -->
+  
   <main class="main-content">
     <header class="content-header">
-      <div class="header-search">
-        <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search...">
+      <div class="header-title">
+        <h2>Welcome {{username}} !</h2>
       </div>
-      <div class="header-actions">
-        <button class="notification-btn">
-          <i class="fas fa-bell"></i>
-          <span class="badge">5</span>
-        </button>
-        <button class="settings-btn">
-          <i class="fas fa-cog"></i>
-        </button>
-      </div>
+      
     </header>
+    
 
     <div class="content-body">
+      <!-- Accounts Section -->
+      <div class="accounts-section">
+        <h2>Your Accounts</h2>
+        <div class="accounts-grid">
+          <div *ngFor="let account of accounts" class="account-card">
+            <h3>{{account.accountType}}</h3>
+            <p>Account: {{account.accountNumber}}</p>
+            <h4>Balance: {{account.currentBalance | currency}}</h4>
+            <span [class.active]="account.active" class="status-badge">
+              {{account.active ? 'Active' : 'Inactive'}}
+            </span>
+          </div>
+        </div>
+      </div>
+
       <!-- Quick Stats -->
       <div class="stats-grid">
         <div class="stat-card">
@@ -91,27 +33,7 @@
           </div>
           <div class="stat-info">
             <h3>Total Balance</h3>
-            <h2>{{ accountBalance | currency }}</h2>
-          </div>
-        </div>
-        
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-arrow-up"></i>
-          </div>
-          <div class="stat-info">
-            <h3>Income</h3>
-            <h2>{{ 2 | currency }}</h2>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-arrow-down"></i>
-          </div>
-          <div class="stat-info">
-            <h3>Expenses</h3>
-            <h2>{{ 2 | currency }}</h2>
+            <h2>{{accountBalance | currency}}</h2>
           </div>
         </div>
       </div>
@@ -121,15 +43,32 @@
         <h2>Recent Transactions</h2>
         <div class="transaction-list">
           <div *ngFor="let transaction of recentTransactions" class="transaction-item">
-            <div class="transaction-icon" [ngClass]="transaction.type">
-              <i [class]="getTransactionIcon(transaction.type)"></i>
+            <div class="transaction-icon">
+              <i [class]="getTransactionIcon(transaction.amount)"></i>
             </div>
             <div class="transaction-info">
-              <h4>{{ transaction.description }}</h4>
-              <span>{{ transaction.date | date:'short' }}</span>
+              <h4>Transaction ID: {{transaction.transactionId}}</h4>
+              <span>{{transaction.timestamp | date:'medium'}}</span>
             </div>
-            <div class="transaction-amount" [ngClass]="transaction.type">
-              {{ transaction.amount | currency }}
+            <div class="transaction-amount" [ngClass]="transaction.amount > 0 ? 'credit' : 'debit'">
+              {{transaction.amount | currency}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Loans -->
+      <div class="loans-container" *ngIf="activeLoans.length > 0">
+        <h2>Active Loans</h2>
+        <div class="loans-list">
+          <div *ngFor="let loan of activeLoans" class="loan-item">
+            <div class="loan-info">
+              <h4>Loan ID: {{loan.loanId}}</h4>
+              <p>Principal: {{loan.principalAmount | currency}}</p>
+              <p>Remaining: {{loan.remainingAmount | currency}}</p>
+              <p>Interest Rate: {{loan.interestRate}}%</p>
+              <p>Status: {{loan.status}}</p>
+              <p>Start Date: {{loan.startDate | date}}</p>
             </div>
           </div>
         </div>

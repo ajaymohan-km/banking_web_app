@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
-import { AuthResponse } from '../model/auth.model';
+import { Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 
 @Injectable({
@@ -9,18 +8,31 @@ import { DOCUMENT } from '@angular/common';
 })
 export class DashboardService {
   private apiUrl = 'http://localhost:8080/api/dashboard';
+  private document = inject(DOCUMENT);
+  private window = this.document.defaultView;
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.window?.localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
   getCustomerDashboard(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/customer`);
+    const headers = this.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/customer`, { headers });
   }
 
   getBankerDashboard(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/banker`);
+    const headers = this.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/banker`, { headers });
   }
 
   getAdminDashboard(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/admin`);
+    const headers = this.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/admin`, { headers });
   }
 }

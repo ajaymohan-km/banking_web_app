@@ -1,0 +1,47 @@
+<div class="payments-container">
+    <header class="content-header">
+      <div class="header-title">
+        <h2>Transaction History</h2>
+      </div>
+    </header>
+  
+    <div class="search-section">
+      <form [formGroup]="searchForm" (ngSubmit)="viewTransactions()">
+        <div class="form-group">
+          <label>Select Account</label>
+          <select formControlName="accountId">
+            <option value="">Choose an account</option>
+            <option *ngFor="let account of accounts" [value]="account.id">
+              {{account.accountNumber}} - {{account.accountType}}
+            </option>
+          </select>
+        </div>
+        <button type="submit" class="view-btn" [disabled]="searchForm.invalid || loading">
+          {{loading ? 'Loading...' : 'View Transactions'}}
+        </button>
+      </form>
+    </div>
+  
+    <div class="transactions-list" *ngIf="transactions.length > 0">
+      <div class="transaction-item" *ngFor="let transaction of transactions">
+        <div class="transaction-info">
+          <div class="transaction-header">
+            <span class="transaction-id">ID: {{transaction.id}}</span>
+            <span class="transaction-date">{{transaction.timestamp | date:'medium'}}</span>
+          </div>
+          <div class="transaction-details">
+            <p>From Account: {{transaction.fromAccountId}}</p>
+            <p>To Account: {{transaction.toAccountId}}</p>
+          </div>
+        </div>
+        <div class="transaction-amount">
+          {{transaction.amount | currency}}
+        </div>
+      </div>
+    </div>
+  
+    <div class="no-transactions" *ngIf="transactions.length === 0">
+      <p>No transactions found</p>
+    </div>
+  </div>
+  

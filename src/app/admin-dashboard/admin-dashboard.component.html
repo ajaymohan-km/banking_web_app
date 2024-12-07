@@ -1,0 +1,115 @@
+<div class="admin-container">
+  <header class="admin-header">
+    <div class="welcome-section">
+      <h1>Welcome, Administrator</h1>
+      <p>Manage your banking system efficiently</p>
+    </div>
+    <div class="header-actions">
+      <span class="current-time">{{currentDate | date:'medium'}}</span>
+      <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </header>
+    <!-- Stats Section -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>User Statistics</h3>
+        <div class="stat-content">
+          <div class="stat-item">
+            <span>Total Users</span>
+            <span class="stat-value">{{stats.userStats?.totalUsers}}</span>
+          </div>
+          <div class="stat-item">
+            <span>Active Customers</span>
+            <span class="stat-value">{{stats.userStats?.activeCustomers}}</span>
+          </div>
+          <div class="stat-item">
+            <span>Active Bankers</span>
+            <span class="stat-value">{{stats.userStats?.activeBankers}}</span>
+          </div>
+          <div class="stat-item">
+            <span>Active Admins</span>
+            <span class="stat-value">{{stats.userStats?.activeAdmins}}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <h3>Transaction Statistics</h3>
+        <div class="stat-content">
+          <div class="stat-item">
+            <span>Total Transactions</span>
+            <span class="stat-value">{{stats.transactionStats?.totalTransactionCount}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Users Section -->
+    <div class="users-section">
+      <div class="section-header">
+        <h2>User Management</h2>
+        <button class="add-btn" (click)="openBankerModal()">
+          <i class="fas fa-plus"></i> Add Banker
+        </button>
+      </div>
+  
+      <div class="users-grid">
+        <div *ngFor="let user of users" class="user-card">
+          <div class="user-info">
+            <h3>{{user.fullName}}</h3>
+            <p>{{user.email}}</p>
+            <p>Role: {{user.roles[0]}}</p>
+          </div>
+          <button class="delete-btn" (click)="deleteUser(user.id)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Add Banker Modal -->
+    <div class="modal" *ngIf="showBankerModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Add New Banker</h2>
+          <button class="close-btn" (click)="closeBankerModal()">×</button>
+        </div>
+        <form [formGroup]="bankerForm" (ngSubmit)="createBanker()">
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" formControlName="username">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" formControlName="password">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" formControlName="email">
+          </div>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" formControlName="fullName">
+          </div>
+          <div class="form-group">
+            <label>Employee ID</label>
+            <input type="text" formControlName="employeeId">
+          </div>
+          <div class="form-group">
+            <label>Branch</label>
+            <input type="text" formControlName="branch">
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" (click)="closeBankerModal()">Cancel</button>
+            <button type="submit" class="submit-btn" [disabled]="bankerForm.invalid || loading">
+              {{loading ? 'Creating...' : 'Create Banker'}}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
